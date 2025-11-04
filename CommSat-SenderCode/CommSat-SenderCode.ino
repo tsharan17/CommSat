@@ -19,7 +19,7 @@ Adafruit_BMP280 bmp;
 Adafruit_MPU6050 mpu;
 
 // ==== ESP-NOW Setup ====
-uint8_t receiverAddress[] = {0x24, 0x0A, 0xC4, 0x00, 0x00, 0x00}; // CHANGE THIS to your receiver MAC
+uint8_t receiverAddress[] = {0x00, 0x4B, 0x12, 0x34, 0x44, 0x6C}; // CHANGE THIS to your receiver MAC 00:4B:12:34:44:6C
 
 typedef struct struct_message {
   float temperature;
@@ -33,7 +33,9 @@ typedef struct struct_message {
 struct_message dataToSend;
 
 // Callback when data is sent
-void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+// Callback when data is sent
+// ⭐ HERE IS THE FIX: The function signature is updated
+void OnDataSent(const wifi_tx_info_t *tx_info, esp_now_send_status_t status) {
   Serial.print("Send Status: ");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Success" : "Fail");
 }
